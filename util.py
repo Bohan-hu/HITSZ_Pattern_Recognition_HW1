@@ -32,7 +32,6 @@ def threshold(images):
 
 def selectClass(images, labels, classes):
     index = []
-    a = ()
     for i in classes:
         index += np.where(labels == i)[0].tolist()
     return images[np.array(index)], labels[np.array(index)]
@@ -60,21 +59,19 @@ if __name__ == '__main__':
     labels_train = load_label(label_train_path)
     labels_test = load_label(label_test_path)
 
+
     # 统计分类正确率
     sum = 0
-    # print("--------最近邻--------")
-    # for i in range(0, images_test.shape[0]):
-    #     predict = K_NN(images_test[i], images_train, labels_train)
-    #     if predict == labels_test[i]:
-    #         sum = sum + 1
-    #     if i % 100 == 0 and i != 0:
-    #         print(str(i) + ' / 10000 -- Accuracy: ' + str(sum / i))
-    print("--------K近邻（K=10）--------")
+    print("--------最近邻--------")
+    for i in range(0, images_test.shape[0]):
+        predict = K_NN(images_test[i], images_train, labels_train)
+        if predict == labels_test[i]:
+            sum = sum + 1
+        if i % 100 == 0 and i != 0:
+            print(str(i) + ' / 10000 -- Accuracy: ' + str(sum / i))
 
-    images_train = threshold(images_train)
-    images_test = threshold(images_test)
-    images_train, labels_train = selectClass(threshold(images_train), labels_train, [3,5])
-    images_test, labels_test = selectClass(threshold(images_test), labels_test, [3,5])
+
+    print("--------K近邻（K=10）--------")
     sum = 0
     for i in range(0, images_test.shape[0]):
         predict = K_NN(images_test[i], images_train, labels_train)
